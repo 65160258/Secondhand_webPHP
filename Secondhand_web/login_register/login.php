@@ -1,23 +1,35 @@
 <?php
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
+session_start();
+include '../database/db.php';
 
-    // ดึงข้อมูลตะกร้าจากฐานข้อมูล
-    $sql = "SELECT carts.product_id, products.name, products.price, carts.quantity FROM carts JOIN products ON carts.product_id = products.id WHERE carts.user_id = ?";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $_SESSION['cart'] = [];
-    while ($row = $result->fetch_assoc()) {
-        $_SESSION['cart'][$row['product_id']] = [
-            'name' => $row['name'],
-            'price' => $row['price'],
-            'quantity' => $row['quantity']
-        ];
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        // ตรวจสอบรหัสผ่านที่เข้ารหัสกับรหัสผ่านที่ผู้ใช้กรอก
+        if (password_verify($password, $user['password'])) {
+            // ตั้งค่าข้อมูล session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role']; // ใช้ role ในการตรวจสอบ
+            header("Location: ../index.php");
+            exit();
+        } else {
+            header("Location: login.html");
+        }
+    } else {
+        header("Location: login.html");
     }
 
     $stmt->close();
+    $conn->close();
 }
 ?>

@@ -46,9 +46,15 @@ $result = $stmt->get_result();
             <input type="text" name="query" placeholder="Search products..." required>
             <button type="submit">Search</button>
         </form>
+
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'buyer'): ?>
             <a href="products/cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
         <?php endif; ?>
+
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'buyer'): ?>
+                <p><a href="products/order_history.php">Order History</a></p>
+            <?php endif; ?>
+            
     </header>
     <main>
         <h2>Products</h2>

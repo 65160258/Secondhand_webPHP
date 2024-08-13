@@ -49,6 +49,9 @@ if (isset($_POST['checkout'])) {
     <main>
         <p>Order placed successfully! Your Order ID is: <?php echo htmlspecialchars($order_id); ?></p>
         <p>Shipping Method: <?php echo htmlspecialchars($shipping_method); ?></p>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'buyer'): ?>
+                <p><a href="order_history.php">Order History</a></p>
+            <?php endif; ?>
     </main>
 </body>
 </html>

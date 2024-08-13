@@ -76,8 +76,7 @@ if (isset($_POST['add_to_cart'])) {
                                 <td>
                                     <form action="update_cart.php" method="post">
                                         <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                                        <input type="number" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>" min="1">
-                                        <button type="submit" name="update_quantity">Update</button>
+                                        <input type="p" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>" min="1" disabled>
                                     </form>
                                 </td>
                                 <td>$<?php echo htmlspecialchars($product['price']); ?></td>
