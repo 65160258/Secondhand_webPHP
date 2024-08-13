@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2024 at 08:43 AM
+-- Generation Time: Aug 13, 2024 at 03:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,21 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `carts`
---
-
-CREATE TABLE `carts` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `shipping_method` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `orders`
 --
 
@@ -55,10 +40,13 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `order_date`, `shipping_method`) VALUES
-(31, 6, 3003.00, '2024-08-12 11:52:18', 'Next-Day Delivery'),
-(32, 2, 300.00, '2024-08-12 12:53:46', 'Standard Shipping'),
-(33, 5, 3000.00, '2024-08-12 13:23:33', 'Express Shipping'),
-(34, 5, 3000.00, '2024-08-12 13:37:47', 'Next-Day Delivery');
+(98, 5, 3040.00, '2024-08-13 19:14:18', 'Express Shipping'),
+(99, 5, 300.00, '2024-08-13 19:58:06', 'การจัดส่งมาตรฐาน'),
+(100, 5, 5000.00, '2024-08-13 20:05:41', 'การจัดส่งมาตรฐาน'),
+(101, 5, 300.00, '2024-08-13 20:43:55', 'การจัดส่งด่วน'),
+(102, 5, 643.00, '2024-08-13 20:49:13', 'การจัดส่งด่วน'),
+(103, 5, 0.00, '2024-08-13 20:52:30', 'การจัดส่งด่วน'),
+(104, 5, 300.00, '2024-08-13 20:52:39', 'การจัดส่งมาตรฐาน');
 
 -- --------------------------------------------------------
 
@@ -68,9 +56,9 @@ INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `order_date`, `shipping_m
 
 CREATE TABLE `order_items` (
   `id` int(11) NOT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -78,9 +66,14 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`) VALUES
-(26, 31, 2, 1),
-(28, 33, 1, 1),
-(29, 34, 1, 1);
+(33, 98, 1, 1),
+(34, 98, 7, 2),
+(35, 99, 2, 1),
+(36, 100, 8, 1),
+(37, 101, 2, 1),
+(38, 102, 2, 2),
+(39, 102, 13, 1),
+(40, 104, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -111,7 +104,9 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `image_url`, `sell
 (11, 'จอ DELL 20', 'จอเก่าๆ', 5.00, 'https://inwfile.com/s-dn/ngm9qx.jpg', NULL),
 (12, 'จอมือสอง LED IPS 27 นิ้ว', 'จอมือสอง LED IPS 27 นิ้ว', 79.00, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFF1VN80tK3XL6_TJaUy6R8B53Qc-TUSJ98A&s', NULL),
 (13, 'การ์ดจอ Nvidia Quadro 600 1Gb', 'การ์ดจอ Nvidia Quadro 600 1Gb', 43.00, 'https://inwfile.com/s-di/3welhn.jpg', NULL),
-(14, 'Nvidia Quadro600 1GB', 'Nvidia Quadro600 1GB', 30.00, 'https://down-th.img.susercontent.com/file/18b4af4ad2962858615f3272de1670c1', NULL);
+(14, 'Nvidia Quadro600 1GB', 'Nvidia Quadro600 1GB', 30.00, 'https://down-th.img.susercontent.com/file/18b4af4ad2962858615f3272de1670c1', NULL),
+(20, 'รถจักรยาน', 'รถจักรยานเก่าๆ', 20.00, 'https://f.ptcdn.info/074/004/000/1365704473-1-o.jpg', 8),
+(21, 'game', 'games', 1333.00, 'https://notebookspec.com/web/wp-content/uploads/2014/05/1364892569_497932581_2-Pictures-of-Any-kind-of-pc-games.jpg', 8);
 
 -- --------------------------------------------------------
 
@@ -141,19 +136,15 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `created_at`, `role`
 (6, 'bb', '$2y$10$cY2sSNXenWNmEp3T4q0GXOjTH3Hi1j4EwsHX.DvjqL4sTrRsqng7K', 'bb@gmail.com', '2024-08-12 04:37:18', 'buyer'),
 (7, 'gg', '$2y$10$e1I.LJcy7hLOxuX/8bQXee594gytm5RMfZaGd45QMjlKeeVpB6/aO', 'gg@gmail.com', '2024-08-12 05:26:09', 'buyer'),
 (8, 'ss', '$2y$10$prTxah1ViOnk9APNHUzdDeMn/VLdH3smkfa.WBs3FJ.Yi9ZC72.6.', 'ss@gmail.com', '2024-08-12 05:28:48', 'seller'),
-(9, 'uu', '$2y$10$8zXibqepI6WbmXjAR6d63OBiEjD1H53AV34uMIONTScf.qIihW5s2', 'uu@gmail.com', '2024-08-12 06:06:03', 'seller');
+(9, 'uu', '$2y$10$8zXibqepI6WbmXjAR6d63OBiEjD1H53AV34uMIONTScf.qIihW5s2', 'uu@gmail.com', '2024-08-12 06:06:03', 'seller'),
+(10, 'qq', '$2y$10$fjb7114jaTd9Ivr/JMbbgOahJLdxqWwo3kGqBNIFe6WQ6XvsFus1W', 'qq@gmail.com', '2024-08-13 09:00:07', 'buyer'),
+(11, 'ff', '$2y$10$jF7/gfMMzFDWBjRo/gGAoerhjPA883lSESgSkrz8DHDbZ0RoJ3Vii', 'ff@gmail.com', '2024-08-13 09:14:57', 'buyer'),
+(12, 'll', '$2y$10$aP7VgcKphiQa5P/ve/nG7.4ZGkkyea8Bgiw3gMR6rYjxzkxmEFBfy', 'll@gmail.com', '2024-08-13 09:24:57', 'buyer'),
+(13, 'ee', '$2y$10$2IQnd2YxOjhygaB7pzAyZO2FpYlrNR1kinW/L.iZmHrDlR5cUpGn.', 'ee@gmail.com', '2024-08-13 11:00:18', 'seller');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `carts`
---
-ALTER TABLE `carts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `orders`
@@ -168,7 +159,7 @@ ALTER TABLE `orders`
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`),
-  ADD KEY `order_items_ibfk_2` (`product_id`);
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `products`
@@ -189,45 +180,32 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `carts`
---
-ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `carts`
---
-ALTER TABLE `carts`
-  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `orders`
@@ -240,7 +218,7 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
