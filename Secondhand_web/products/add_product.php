@@ -50,25 +50,42 @@ if (isset($_POST['add_product'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Add New Product</title>
 </head>
 <body>
-    <h1>ประกาศขายสินค้า</h1>
-    <a href="../index.php">Back to Homepage</a>
-    <form action="add_product.php" method="POST">
-        <label for="name">Product Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">ประกาศขายสินค้า</h1>
+        <a href="../index.php" class="btn btn-primary mb-4">กลับสู่หน้าแรก</a>
 
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" required></textarea><br><br>
-        
-        <label for="price">Price:</label><br>
-        <input type="text" id="price" name="price" required><br><br>
-        
-        <label for="image_url">Image URL:</label><br>
-        <input type="text" id="image_url" name="image_url"><br><br>
-        
-        <input type="submit" name="add_product" value="Add Product">
-    </form>
+        <form action="add_product.php" method="POST">
+            <div class="form-group">
+                <label for="name">ชื่อสินค้า:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">รายละเอียด:</label>
+                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">ราคา:</label>
+                <input type="text" class="form-control" id="price" name="price" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image_url">URL รูปภาพ:</label>
+                <input type="text" class="form-control" id="image_url" name="image_url">
+            </div>
+
+            <button type="submit" name="add_product" class="btn btn-success">เพิ่มสินค้า</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

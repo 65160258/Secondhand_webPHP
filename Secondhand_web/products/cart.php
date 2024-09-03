@@ -39,29 +39,30 @@ if (isset($_POST['add_to_cart'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ตะกร้าสินค้า</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Your Shopping Cart</h1>
-        <a href="../index.php">Back to Home</a>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>ตะกร้าสินค้าของคุณ</h1>
+        <a href="../index.php" class="btn btn-light">กลับสู่หน้าหลัก</a>
     </header>
-    <main>
+    <main class="container my-5">
         <?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
             <form action="checkout.php" method="post">
-                <table>
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                            <th>Actions</th>
+                            <th>ชื่อสินค้า</th>
+                            <th>จำนวน</th>
+                            <th>ราคา</th>
+                            <th>รวม</th>
+                            <th>ดำเนินการ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,40 +77,46 @@ if (isset($_POST['add_to_cart'])) {
                                 <td>
                                     <form action="update_cart.php" method="post">
                                         <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                                        <input type="p" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>" min="1" disabled>
+                                        <input type="number" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>" min="1" disabled>
                                     </form>
-                                </td>
-                                <td>$<?php echo htmlspecialchars($product['price']); ?></td>
-                                <td>$<?php echo number_format($total, 2); ?></td>
+                                    </td>
+                                <td><?php echo htmlspecialchars($product['price']); ?> บาท</td>
+                                <td><?php echo number_format($total, 2); ?> บาท</td>
                                 <td>
                                     <form action="remove_from_cart.php" method="post">
                                         <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                                        <button type="submit" name="remove_from_cart">Remove</button>
+                                        <button type="submit" name="remove_from_cart" class="btn btn-danger btn-sm">ลบ</button>
                                     </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                         <tr>
-                            <td colspan="3">Total Amount</td>
-                            <td>$<?php echo number_format($total_amount, 2); ?></td>
+                            <td colspan="3">ยอดรวม</td>
+                            <td><?php echo number_format($total_amount, 2); ?> บาท</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h2>Select Shipping Method</h2>
-                <select name="shipping_method" required>
-                    <?php 
-                    $shipping_methods = ['Standard Shipping', 'Express Shipping', 'Next-Day Delivery'];
-                    foreach ($shipping_methods as $method): ?>
-                        <option value="<?php echo htmlspecialchars($method); ?>"><?php echo htmlspecialchars($method); ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <h2 class="mt-4">เลือกวิธีการจัดส่ง</h2>
+                <div class="form-group">
+                    <select name="shipping_method" class="form-control" required>
+                        <?php 
+                        $shipping_methods = ['การจัดส่งมาตรฐาน', 'การจัดส่งด่วน', 'การจัดส่งวันถัดไป'];
+                        foreach ($shipping_methods as $method): ?>
+                            <option value="<?php echo htmlspecialchars($method); ?>"><?php echo htmlspecialchars($method); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-                <button type="submit" name="checkout">Checkout</button>
+                <button type="submit" name="checkout" class="btn btn-light">ชำระเงิน</button>
             </form>
         <?php else: ?>
-            <p>Your cart is empty.</p>
+            <p class="text-center">ตะกร้าสินค้าของคุณว่างเปล่า</p>
         <?php endif; ?>
     </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
