@@ -9,8 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// ดึงข้อมูลคำสั่งซื้อทั้งหมดของผู้ใช้
-$sql = "SELECT * FROM orders WHERE user_id = ?";
+// ดึงข้อมูลคำสั่งซื้อทั้งหมดของผู้ใช้ และจัดเรียงตามวันที่สั่งซื้อ
+$sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -46,10 +46,11 @@ $result = $stmt->get_result();
                         <!-- ดึงรายการสินค้าที่อยู่ในคำสั่งซื้อ -->
                         <?php
                         $order_id = $order['id'];
-                        $sql_items = "SELECT products.name, order_items.quantity, products.price 
+                        $sql_items = "SELECT products.name, SUM(order_items.quantity) as quantity, products.price 
                                       FROM order_items 
                                       JOIN products ON order_items.product_id = products.id 
-                                      WHERE order_items.order_id = ?";
+                                      WHERE order_items.order_id = ? 
+                                      GROUP BY products.name, products.price";
                         $stmt_items = $conn->prepare($sql_items);
                         $stmt_items->bind_param("i", $order_id);
                         $stmt_items->execute();
